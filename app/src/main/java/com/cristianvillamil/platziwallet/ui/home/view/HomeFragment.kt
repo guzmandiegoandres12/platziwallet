@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AccelerateDecelerateInterpolator
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.cristianvillamil.platziwallet.R
@@ -14,7 +15,7 @@ import com.cristianvillamil.platziwallet.ui.home.HomeContract
 import com.cristianvillamil.platziwallet.ui.home.data.MessageFactory
 import com.cristianvillamil.platziwallet.ui.home.presenter.HomePresenter
 import com.cristianvillamil.platziwallet.ui.obserbable.AvailableBalanceObservable
-import com.cristianvillamil.platziwallet.ui.obserbable.Observer
+//import com.cristianvillamil.platziwallet.ui.obserbable.Observer
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -48,11 +49,14 @@ class HomeFragment : Fragment(), HomeContract.View {
             .get()
             .load("https://media.licdn.com/dms/image/C4E03AQFcCuDIJl0mKg/profile-displayphoto-shrink_200_200/0?e=1583366400&v=beta&t=ymt3xgMe5bKS-2knNDL9mQYFksP9ZHne5ugIqEyRjZs")
             .into(profilePhotoImageView)
-        availableBalanceObserver.addObservet(object : Observer{
-            override fun notifyChance(newValue: Double) {
-                amountValueTextView.text = "$ $newValue"
-            }
+      //  availableBalanceObserver.addObservet(object : Observer{
+       //     override fun notifyChance(newValue: Double) {
+       //         amountValueTextView.text = "$ $newValue"
+       //     }
 
+       // })
+        homePresenter!!.getPresentageKiveData().observe(this, Observer<String> {
+            value -> percentageText.text = value
         })
     }
 
@@ -73,11 +77,11 @@ class HomeFragment : Fragment(), HomeContract.View {
 
     override fun showFaboriteTransfers(favoriteTransfer: List<FavoriteTransfer>) {
         favoriteTransferAdapter.setData(favoriteTransfer)
-        val mesage : MessageFactory = MessageFactory()
-        context?.let {
-            mesage.getDialog(it , MessageFactory.TYPE_SUCCSSES)
-                .show()
-        }
+        //val mesage : MessageFactory = MessageFactory()
+        //context?.let {
+        //    mesage.getDialog(it , MessageFactory.TYPE_SUCCSSES)
+        //        .show()
+        //}
 
     }
 }

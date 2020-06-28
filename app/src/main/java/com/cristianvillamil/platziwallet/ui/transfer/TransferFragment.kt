@@ -1,17 +1,21 @@
 package com.cristianvillamil.platziwallet.ui.transfer
 
 import android.os.Bundle
+import android.os.Handler
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cristianvillamil.platziwallet.R
+import com.cristianvillamil.platziwallet.ui.transfer.data.AplicationDatabase
+import com.cristianvillamil.platziwallet.ui.transfer.data.TransferEntity
 import kotlinx.android.synthetic.main.fragment_transfer.*
 import java.text.NumberFormat
 
@@ -55,6 +59,26 @@ class TransferFragment : Fragment() {
         initRecyclerView()
         transferButton.setOnClickListener{
             Log.e("salida","clikeo botom")
+            AplicationDatabase.GetAppDatabase(context!!)?.getDAO()?.saveTranfer(
+                TransferEntity(
+                    userId = "15487",
+                    userName = "userPlazi",
+                    transactionDate = "12/12/2020",
+                    transactiomAmout = "30000",
+                    receiverUserId = "787534"
+                )
+            )
+            val runnable= Runnable {
+                var userTransferStrin=""
+               val transferList = AplicationDatabase.GetAppDatabase(context!!)?.getDAO()?.findTranferByUserNAme("userPlazi")
+                transferList!!.forEach {
+                   userTransferStrin += "\n" + it
+                }
+                Toast.makeText(context!!,userTransferStrin,Toast.LENGTH_LONG)
+                Log.e("RunableEjecucion","se ejecuto \n $userTransferStrin")
+            }
+            val handler = Handler()
+            handler.postDelayed(runnable,3000)
         }
     }
 
