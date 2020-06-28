@@ -13,6 +13,8 @@ import com.cristianvillamil.platziwallet.ui.home.FavoriteTransfer
 import com.cristianvillamil.platziwallet.ui.home.HomeContract
 import com.cristianvillamil.platziwallet.ui.home.data.MessageFactory
 import com.cristianvillamil.platziwallet.ui.home.presenter.HomePresenter
+import com.cristianvillamil.platziwallet.ui.obserbable.AvailableBalanceObservable
+import com.cristianvillamil.platziwallet.ui.obserbable.Observer
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_home.*
 
@@ -21,6 +23,8 @@ class HomeFragment : Fragment(), HomeContract.View {
     private val favoriteTransferAdapter =
         FavoriteTransferAdapter()
     private var homePresenter: HomeContract.Presenter? = null
+    private var availableBalanceObserver: AvailableBalanceObservable = AvailableBalanceObservable()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,6 +48,12 @@ class HomeFragment : Fragment(), HomeContract.View {
             .get()
             .load("https://media.licdn.com/dms/image/C4E03AQFcCuDIJl0mKg/profile-displayphoto-shrink_200_200/0?e=1583366400&v=beta&t=ymt3xgMe5bKS-2knNDL9mQYFksP9ZHne5ugIqEyRjZs")
             .into(profilePhotoImageView)
+        availableBalanceObserver.addObservet(object : Observer{
+            override fun notifyChance(newValue: Double) {
+                amountValueTextView.text = "$ $newValue"
+            }
+
+        })
     }
 
     private fun initRecyclerView() {

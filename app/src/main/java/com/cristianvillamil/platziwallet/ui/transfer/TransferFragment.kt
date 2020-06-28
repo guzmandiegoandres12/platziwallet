@@ -3,6 +3,7 @@ package com.cristianvillamil.platziwallet.ui.transfer
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -52,6 +53,9 @@ class TransferFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initAmountInputEditText()
         initRecyclerView()
+        transferButton.setOnClickListener{
+            Log.e("salida","clikeo botom")
+        }
     }
 
     private fun initRecyclerView() {
